@@ -5,5 +5,5 @@
 
 // scr_welcome
 extern const unsigned char PROGMEM bitmap_dolphin[];
-
+extern const unsigned char PROGMEM bitmap_hero_idle[];
 #endif //__SCREENS_BITMAP_H__
