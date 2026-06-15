@@ -1,9 +1,13 @@
 include sources/app/screens/Makefile.mk
+include sources/app/game/game_loneblade/Makefile.mk
 
 CFLAGS		+= -I./sources/app
+CFLAGS		+= -I./sources/app/game/game_loneblade
 CPPFLAGS	+= -I./sources/app
+CPPFLAGS	+= -I./sources/app/game/game_loneblade
 
 VPATH += sources/app
+VPATH += sources/app/game/game_loneblade
 
 # CPP source files
 SOURCES_CPP += sources/app/task_system.cpp
