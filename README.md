@@ -19,7 +19,7 @@ Students who are enrolled in the AK foundation's embedded training program will 
 
 We also hope that this repository will also be useful for those are on the look out for a well-built kit to practice their embedded systems programming skills.
 
-[<img src="hardware/images/ak-mcu-kit-hw2-github-1280x640px.png" width="1280"/>](<https://epcb.vn/products/ak-embedded-base-kit-lap-trinh-nhung-vi-dieu-khien-mcu>)
+[<img src="hardware/images/ak-mcu-kit-hw2-github-1280x640px.png" width="1012"/>](<https://epcb.vn/products/ak-embedded-base-kit-lap-trinh-nhung-vi-dieu-khien-mcu>)
 
 ## Memory map
 
