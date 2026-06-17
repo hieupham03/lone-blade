@@ -1,10 +1,11 @@
 #include "game_player.h"
+#include "game_combat.h"
 #include "screens.h"
 
 Player hero;
 
 void player_init() {
-	hero.x = 62;       
+	hero.x = 62;      
 	hero.y = 53;       
 	hero.state = PLAYER_STATE_IDLE;
 	hero.dir = DIR_RIGHT;
@@ -18,8 +19,8 @@ void player_attack_left() {
 	if (hero.state == PLAYER_STATE_IDLE) {
 		hero.state = PLAYER_STATE_ATTACK1;
 		hero.dir = DIR_LEFT;
-		hero.state_timer = 150;
-		BUZZER_PlaySound(BUZZER_SOUND_CLICK);
+		hero.state_timer = 150; 
+		combat_register_hit(DIR_LEFT, 25);
 	}
 }
 
@@ -27,8 +28,8 @@ void player_attack_right() {
 	if (hero.state == PLAYER_STATE_IDLE) {
 		hero.state = PLAYER_STATE_ATTACK1;
 		hero.dir = DIR_RIGHT;
-		hero.state_timer = 150;
-		BUZZER_PlaySound(BUZZER_SOUND_CLICK);
+		hero.state_timer = 150; 
+		combat_register_hit(DIR_RIGHT, 25);
 	}
 }
 
@@ -38,7 +39,7 @@ void player_attack_left2() {
 		hero.state = PLAYER_STATE_ATTACK2;
 		hero.dir = DIR_LEFT;
 		hero.state_timer = 150;
-		BUZZER_PlaySound(BUZZER_SOUND_CLICK);
+		combat_register_hit(DIR_LEFT, 25);
 	}
 }
 
@@ -47,7 +48,7 @@ void player_attack_right2() {
 		hero.state = PLAYER_STATE_ATTACK2;
 		hero.dir = DIR_RIGHT;
 		hero.state_timer = 150;
-		BUZZER_PlaySound(BUZZER_SOUND_CLICK);
+		combat_register_hit(DIR_RIGHT, 25);
 	}
 }
 
@@ -55,6 +56,7 @@ void player_shield(bool active) {
 	if (active) {
 		if (hero.state == PLAYER_STATE_IDLE) {
 			hero.state = PLAYER_STATE_SHIELD;
+			hero.state_timer = 0; 
 		}
 	} else {
 		if (hero.state == PLAYER_STATE_SHIELD) {
@@ -67,7 +69,7 @@ void player_shield(bool active) {
 void player_take_damage() {
 	if (hero.state != PLAYER_STATE_SHIELD && hero.state != PLAYER_STATE_DEFEAT) {
 		hero.state = PLAYER_STATE_HURT;
-		hero.state_timer = 300;
+		hero.state_timer = 300; 
 		
 		if (hero.hp > 0) {
 			hero.hp--;
@@ -125,7 +127,7 @@ void player_draw() {
 			w = 32;
 			if (hero.dir == DIR_LEFT) {
 				bitmap = bitmap_hero_attack_left;
-				draw_x = hero.x - 21;
+				draw_x = hero.x - 20;
 			} else {
 				bitmap = bitmap_hero_attack_right;
 				draw_x = hero.x - 11;
@@ -136,7 +138,7 @@ void player_draw() {
 			w = 35;
 			if (hero.dir == DIR_LEFT) {
 				bitmap = bitmap_hero_attack2_left;
-				draw_x = hero.x - 24; 
+				draw_x = hero.x - 14; 
 			} else {
 				bitmap = bitmap_hero_attack2_right;
 				draw_x = hero.x - 11;

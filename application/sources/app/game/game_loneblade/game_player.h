@@ -18,7 +18,7 @@ typedef enum {
 	DIR_RIGHT
 } player_dir_t;
 
-#define PLAYER_MAX_HP      (3)
+#define PLAYER_MAX_HP      (5)
 #define PLAYER_MAX_MANA    (100)
 
 typedef struct {

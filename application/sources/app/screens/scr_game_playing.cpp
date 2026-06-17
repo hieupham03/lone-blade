@@ -1,6 +1,7 @@
 #include "screens.h"
 #include "scr_game_playing.h"
 #include "game_player.h"
+#include "game_monster.h"
 
 static void view_scr_game_playing();
 
@@ -30,29 +31,34 @@ static void view_scr_game_playing() {
 	view_render.print("HP: ");
 	view_render.print(hero.hp);
 	
-	view_render.setCursor(75, 4);
-	view_render.print("MANA: ");
-	view_render.print(hero.mana);
+	// view_render.setCursor(75, 4);
+	// view_render.print("MANA: ");
+	// view_render.print(hero.mana);
 	
 	player_draw();
+
+	monster_draw();
 }
 
 void scr_game_playing_handle(ak_msg_t *msg) {
 	switch (msg->sig) {
 	case SCREEN_ENTRY: {
 		APP_DBG_SIG("SCREEN_ENTRY scr_game_playing\n");
-		player_init(); 
-		
+		player_init();
+		monster_init(); 
+
 		timer_set(AC_TASK_DISPLAY_ID, AC_DISPLAY_GAME_TICK, 33, TIMER_PERIODIC);
 	} break;
 
 	case SCREEN_EXIT: {
 		APP_DBG_SIG("SCREEN_EXIT scr_game_playing\n");
+	
 		timer_remove_attr(AC_TASK_DISPLAY_ID, AC_DISPLAY_GAME_TICK);
 	} break;
 
 	case AC_DISPLAY_GAME_TICK: {
 		player_update(33);
+		monster_update(33);
 	} break;
 
 	case AC_DISPLAY_BUTON_DOWN_PRESSED: {
