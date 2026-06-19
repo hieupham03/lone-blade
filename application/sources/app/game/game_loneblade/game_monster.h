@@ -3,10 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-
-#define MAX_MONSTERS 5
-#define MONSTER_ATTACK_RANGE 20
-#define MONSTER_QUEUE_DISTANCE 15
+#include "game_loneblade.h"
 
 typedef enum {
 	MONSTER_TYPE_NORMAL,
@@ -41,5 +38,6 @@ void monster_draw();
 void monster_spawn_trigger();
 Monster* monster_get_pool();
 uint8_t monster_get_active_count();
+void monster_take_damage(Monster* m, uint8_t damage);
 
 #endif // __GAME_MONSTER_H__

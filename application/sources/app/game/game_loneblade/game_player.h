@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "game_loneblade.h"
 
 typedef enum {
 	PLAYER_STATE_IDLE,
@@ -17,9 +18,6 @@ typedef enum {
 	DIR_LEFT,
 	DIR_RIGHT
 } player_dir_t;
-
-#define PLAYER_MAX_HP      (5)
-#define PLAYER_MAX_MANA    (100)
 
 typedef struct {
 	int16_t x;             
@@ -38,10 +36,7 @@ void player_init();
 void player_update(uint32_t dt);
 void player_draw();
 
-void player_attack_left();
-void player_attack_right();
-void player_attack_left2();
-void player_attack_right2();
+void player_attack(player_dir_t dir);
 void player_shield(bool active);
 void player_take_damage();
 

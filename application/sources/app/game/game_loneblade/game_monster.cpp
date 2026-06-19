@@ -39,17 +39,17 @@ static void spawn_monster() {
 		m->type = MONSTER_TYPE_NORMAL;
 		m->hp = 3;
 		m->speed = 36;
-		m->y = 53;
+		m->y = GAME_GROUND_Y;
 	} else if (r < 85) {
 		m->type = MONSTER_TYPE_ARMORED;
 		m->hp = 5;
 		m->speed = 30; 
-		m->y = 53;
+		m->y = GAME_GROUND_Y;
 	} else {
 		m->type = MONSTER_TYPE_FLYING;
 		m->hp = 1;
 		m->speed = 40; 
-		m->y = 38; 
+		m->y = GAME_GROUND_Y - 15; 
 	}
 }
 
@@ -59,7 +59,7 @@ void monster_init() {
 	for (int i = 0; i < MAX_MONSTERS; i++) {
 		monster_pool[i].active = false;
 		monster_pool[i].x_scaled = 0;
-		monster_pool[i].y = 53;
+		monster_pool[i].y = GAME_GROUND_Y;
 		monster_pool[i].state = MONSTER_STATE_WALKING;
 		monster_pool[i].state_timer = 0;
 		monster_pool[i].hp = 0;
@@ -232,5 +232,30 @@ void monster_draw() {
 				break;
 			}
 		}
+	}
+}
+
+void monster_take_damage(Monster* m, uint8_t damage) {
+	if (!m || !m->active) return;
+
+	if (m->hp > damage) {
+		m->hp -= damage;
+		if (rand() % 2 == 0) {
+			m->state = MONSTER_STATE_STUNNED;
+			m->state_timer = 400;
+		} else {
+			m->state = MONSTER_STATE_KNOCKBACK;
+			m->state_timer = 200;
+		}
+		BUZZER_PlaySound(BUZZER_SOUND_CLICK);
+	} else {
+		m->hp = 0;
+		m->active = false;
+
+		hero.mana += 15;
+		if (hero.mana > PLAYER_MAX_MANA) {
+			hero.mana = PLAYER_MAX_MANA;
+		}
+		BUZZER_PlaySound(BUZZER_SOUND_BANG);
 	}
 }

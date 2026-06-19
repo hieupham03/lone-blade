@@ -6,7 +6,7 @@ Player hero;
 
 void player_init() {
 	hero.x = 62;      
-	hero.y = 53;       
+	hero.y = GAME_GROUND_Y;       
 	hero.state = PLAYER_STATE_IDLE;
 	hero.dir = DIR_RIGHT;
 	hero.state_timer = 0;
@@ -15,40 +15,16 @@ void player_init() {
 }
 
 
-void player_attack_left() {
+void player_attack(player_dir_t dir) {
 	if (hero.state == PLAYER_STATE_IDLE) {
 		hero.state = PLAYER_STATE_ATTACK1;
-		hero.dir = DIR_LEFT;
-		hero.state_timer = 150; 
-		combat_register_hit(DIR_LEFT, 25);
-	}
-}
-
-void player_attack_right() {
-	if (hero.state == PLAYER_STATE_IDLE) {
-		hero.state = PLAYER_STATE_ATTACK1;
-		hero.dir = DIR_RIGHT;
-		hero.state_timer = 150; 
-		combat_register_hit(DIR_RIGHT, 25);
-	}
-}
-
-
-void player_attack_left2() {
-	if (hero.state == PLAYER_STATE_IDLE || hero.state == PLAYER_STATE_ATTACK1) {
+		hero.dir = dir;
+		hero.state_timer = 250; 
+		combat_register_hit(dir, PLAYER_ATTACK_RANGE_1);
+	} else if (hero.state == PLAYER_STATE_ATTACK1 && hero.dir == dir) {
 		hero.state = PLAYER_STATE_ATTACK2;
-		hero.dir = DIR_LEFT;
 		hero.state_timer = 150;
-		combat_register_hit(DIR_LEFT, 25);
-	}
-}
-
-void player_attack_right2() {
-	if (hero.state == PLAYER_STATE_IDLE || hero.state == PLAYER_STATE_ATTACK1) {
-		hero.state = PLAYER_STATE_ATTACK2;
-		hero.dir = DIR_RIGHT;
-		hero.state_timer = 150;
-		combat_register_hit(DIR_RIGHT, 25);
+		combat_register_hit(dir, PLAYER_ATTACK_RANGE_2);
 	}
 }
 
@@ -138,7 +114,7 @@ void player_draw() {
 			w = 35;
 			if (hero.dir == DIR_LEFT) {
 				bitmap = bitmap_hero_attack2_left;
-				draw_x = hero.x - 14; 
+				draw_x = hero.x - 20; 
 			} else {
 				bitmap = bitmap_hero_attack2_right;
 				draw_x = hero.x - 11;
