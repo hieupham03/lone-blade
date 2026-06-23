@@ -33,8 +33,30 @@ extern const unsigned char PROGMEM bitmap_hero_ulti_left[];
 extern const unsigned char PROGMEM bitmap_hero_ulti_right[];
 
 // Monster Bitmaps
-extern const unsigned char PROGMEM bitmap_monster_normal[];
-extern const unsigned char PROGMEM bitmap_monster_armored[];
+extern const unsigned char PROGMEM bitmap_monster_normal_walk1_left[];
+extern const unsigned char PROGMEM bitmap_monster_normal_walk2_left[];
+extern const unsigned char PROGMEM bitmap_monster_normal_attack_windup_left[];
+extern const unsigned char PROGMEM bitmap_monster_normal_attack_strike_left[];
+extern const unsigned char PROGMEM bitmap_monster_normal_hurt_left[];
+
+extern const unsigned char PROGMEM bitmap_monster_normal_walk1_right[];
+extern const unsigned char PROGMEM bitmap_monster_normal_walk2_right[];
+extern const unsigned char PROGMEM bitmap_monster_normal_attack_windup_right[];
+extern const unsigned char PROGMEM bitmap_monster_normal_attack_strike_right[];
+extern const unsigned char PROGMEM bitmap_monster_normal_hurt_right[];
+
+extern const unsigned char PROGMEM bitmap_monster_armored_walk1_left[];
+extern const unsigned char PROGMEM bitmap_monster_armored_walk2_left[];
+extern const unsigned char PROGMEM bitmap_monster_armored_attack_windup_left[];
+extern const unsigned char PROGMEM bitmap_monster_armored_attack_strike_left[];
+extern const unsigned char PROGMEM bitmap_monster_armored_hurt_left[];
+
+extern const unsigned char PROGMEM bitmap_monster_armored_walk1_right[];
+extern const unsigned char PROGMEM bitmap_monster_armored_walk2_right[];
+extern const unsigned char PROGMEM bitmap_monster_armored_attack_windup_right[];
+extern const unsigned char PROGMEM bitmap_monster_armored_attack_strike_right[];
+extern const unsigned char PROGMEM bitmap_monster_armored_hurt_right[];
+
 extern const unsigned char PROGMEM bitmap_monster_fly_frame1[];
 extern const unsigned char PROGMEM bitmap_monster_fly_frame2[];
 

@@ -135,7 +135,7 @@ void monster_update(uint32_t dt) {
 				int16_t dist_to_hero = (m->dir == 1) ? (62 - x) : (x - 62);
 				if (dist_to_hero <= MONSTER_ATTACK_RANGE) {
 					m->state = MONSTER_STATE_PRE_ATTACK;
-					m->state_timer = 250; 
+					m->state_timer = 350; 
 				} else {
 					m->x_scaled += (int32_t)m->dir * m->speed * dt;
 				}
@@ -182,16 +182,44 @@ void monster_draw() {
 		int16_t x = m->x_scaled / 1000;
 		int16_t y = m->y;
 
-		if (m->state == MONSTER_STATE_PRE_ATTACK && m->anim_frame) {
-			continue;
-		}
-
 		switch (m->type) {
 			case MONSTER_TYPE_NORMAL: {
 				int16_t draw_x = x - 6;
 				int16_t draw_y = y - 14;
+				uint8_t draw_w = 12;
+				uint8_t draw_h = 14;
 
-				view_render.drawBitmap(draw_x, draw_y, bitmap_monster_normal, 12, 14, WHITE);
+				const unsigned char* bitmap = bitmap_monster_normal_walk1_left;
+				if (m->dir == 1) { // Facing right
+					if (m->state == MONSTER_STATE_WALKING) {
+						bitmap = m->anim_frame ? bitmap_monster_normal_walk1_right : bitmap_monster_normal_walk2_right;
+					} else if (m->state == MONSTER_STATE_PRE_ATTACK) {
+						if (m->state_timer > 150) {
+							bitmap = bitmap_monster_normal_attack_windup_right;
+						} else {
+							bitmap = bitmap_monster_normal_attack_strike_right;
+							draw_w = 16;
+						}
+					} else if (m->state == MONSTER_STATE_STUNNED || m->state == MONSTER_STATE_KNOCKBACK) {
+						bitmap = bitmap_monster_normal_hurt_right;
+					}
+				} else { // Facing left
+					if (m->state == MONSTER_STATE_WALKING) {
+						bitmap = m->anim_frame ? bitmap_monster_normal_walk1_left : bitmap_monster_normal_walk2_left;
+					} else if (m->state == MONSTER_STATE_PRE_ATTACK) {
+						if (m->state_timer > 150) {
+							bitmap = bitmap_monster_normal_attack_windup_left;
+						} else {
+							bitmap = bitmap_monster_normal_attack_strike_left;
+							draw_w = 16;
+							draw_x = x - 10;
+						}
+					} else if (m->state == MONSTER_STATE_STUNNED || m->state == MONSTER_STATE_KNOCKBACK) {
+						bitmap = bitmap_monster_normal_hurt_left;
+					}
+				}
+
+				view_render.drawBitmap(draw_x, draw_y, bitmap, draw_w, draw_h, WHITE);
 
 				if (m->state == MONSTER_STATE_STUNNED) {
 					view_render.drawPixel(x - 2, draw_y - 2, WHITE);
@@ -203,12 +231,45 @@ void monster_draw() {
 			case MONSTER_TYPE_ARMORED: {
 				int16_t draw_x = x - 8;
 				int16_t draw_y = y - 19;
+				uint8_t draw_w = 16;
+				uint8_t draw_h = 19;
 
-				view_render.drawBitmap(draw_x, draw_y, bitmap_monster_armored, 16, 19, WHITE);
+				const unsigned char* bitmap = bitmap_monster_armored_walk1_left;
+				if (m->dir == 1) { // Facing right
+					if (m->state == MONSTER_STATE_WALKING) {
+						bitmap = m->anim_frame ? bitmap_monster_armored_walk1_right : bitmap_monster_armored_walk2_right;
+					} else if (m->state == MONSTER_STATE_PRE_ATTACK) {
+						if (m->state_timer > 150) {
+							bitmap = bitmap_monster_armored_attack_windup_right;
+						} else {
+							bitmap = bitmap_monster_armored_attack_strike_right;
+							draw_w = 24;
+						}
+					} else if (m->state == MONSTER_STATE_STUNNED || m->state == MONSTER_STATE_KNOCKBACK) {
+						bitmap = bitmap_monster_armored_hurt_right;
+					}
+				} else { // Facing left
+					if (m->state == MONSTER_STATE_WALKING) {
+						bitmap = m->anim_frame ? bitmap_monster_armored_walk1_left : bitmap_monster_armored_walk2_left;
+					} else if (m->state == MONSTER_STATE_PRE_ATTACK) {
+						if (m->state_timer > 150) {
+							bitmap = bitmap_monster_armored_attack_windup_left;
+						} else {
+							bitmap = bitmap_monster_armored_attack_strike_left;
+							draw_w = 24;
+							draw_x = x - 16;
+						}
+					} else if (m->state == MONSTER_STATE_STUNNED || m->state == MONSTER_STATE_KNOCKBACK) {
+						bitmap = bitmap_monster_armored_hurt_left;
+					}
+				}
+
+				view_render.drawBitmap(draw_x, draw_y, bitmap, draw_w, draw_h, WHITE);
 
 				if (m->hp < 2) {
-					view_render.drawLine(draw_x + 3, draw_y + 3, draw_x + 13, draw_y + 16, BLACK);
-					view_render.drawLine(draw_x + 13, draw_y + 3, draw_x + 3, draw_y + 16, BLACK);
+					int16_t body_left = x - 8;
+					view_render.drawLine(body_left + 3, draw_y + 3, body_left + 13, draw_y + 16, BLACK);
+					view_render.drawLine(body_left + 13, draw_y + 3, body_left + 3, draw_y + 16, BLACK);
 				}
 
 				if (m->state == MONSTER_STATE_STUNNED) {
