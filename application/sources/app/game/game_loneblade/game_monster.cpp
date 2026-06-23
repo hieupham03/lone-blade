@@ -27,10 +27,10 @@ static void spawn_monster() {
 	// Randomly spawn Left (X = -10) or Right (X = 134)
 	if (rand() % 2 == 0) {
 		m->x_scaled = -10 * 1000;
-		m->dir = 1; // moves right towards center
+		m->dir = 1;
 	} else {
 		m->x_scaled = 134 * 1000;
-		m->dir = -1; // moves left towards center
+		m->dir = -1; 
 	}
 
 	// Randomly choose type: NORMAL (60%), ARMORED (25%), FLYING (15%)
@@ -110,14 +110,12 @@ void monster_update(uint32_t dt) {
 		Monster* m = &monster_pool[i];
 		if (!m->active) continue;
 
-		// Update state timer
 		if (m->state_timer > dt) {
 			m->state_timer -= dt;
 		} else {
 			m->state_timer = 0;
 		}
 
-		// Update animation frame timer
 		m->anim_timer += dt;
 		if (m->anim_timer >= 200) {
 			m->anim_timer = 0;
